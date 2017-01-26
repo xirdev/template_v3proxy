@@ -3,26 +3,29 @@
     however, in this context, just GETting is simpler.
 */
 
-
 var request = require("request")
 var express = require("express")
 var https = require('https')
 var http = require('http')
 var url = require('url')
+var fs = require('fs')
+var bodyParser = require('body-parser');
 
-var STEM = process.env.XIRSYS_API
 
-if (!STEM) {
-    console.log('Please set XIRSYS_API="https://ident:secret@xirsys_gateway"')
+if (!fs.existsSync("config.json")) {
+    console.log("Please provide config.json")
     process.exit(1)
 }
 
-var stem = url.parse(STEM)
+var XS = JSON.parse(fs.readFileSync("config.json"))
 
 var app = express()
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
 var server;
 
-if (stem.protocol == "https") {
+if (XS.protocol == "https") {
     var opts = {
         key: fs.readFileSync(path.join(__dirname, 'server.key')),
         cert: fs.readFileSync(path.join(__dirname, 'server.crt'))
@@ -35,21 +38,25 @@ if (stem.protocol == "https") {
 
 app.use(express.static('./public'));
 
+var gw = XS.protocol + "://" + XS.gateway
 
 //Returns Secure token to connect to the service.
 app.post('/signal/token', function(req, res) {
-    console.log(req)
-    request.put({ url: STEM + "/_token/my/ns", json: true }).pipe(res)
+    console.log("posting to " + gw + "/signal/token")
+    body = req.body
+    body["ident"] = XS.ident
+    body["secret"] = XS.secret
+    request.post(gw + "/signal/token", { form: body }).pipe(res)
 })
 
 //Returns List of valid signaling servers that the clients can connect to.
 app.get('/signal/list', function(req, res) {
-    request.get({ url: STEM + "/_host?type=signal", json: true }).pipe(res)
+    request.get({ url: gw + "/_host?type=signal", json: true }).auth(XS.ident, XS.secret).pipe(res)
 })
 
 //Returns a Valid ICE server setup to handle the WebRTC handshake and TURN connection if needed.
 app.get('/ice', function(req, res) {
-    request.put({ url: STEM + "/_turn/my/ns", json: true }).pipe(res)
+    request.put({ url: gw + "/_turn/my/ns", json: true }).auth(XS.ident, XS.secret).pipe(res)
 });
 
 

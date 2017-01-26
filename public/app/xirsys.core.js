@@ -226,7 +226,7 @@ if (!$xirsys) {
                     this.xhr.open($opts.method, $opts.url, true);
                     this.setHeaders({
                         'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     });
                 }
                 if ($opts.headers && typeof $opts.headers == 'object') {

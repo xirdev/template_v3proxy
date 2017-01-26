@@ -25,12 +25,11 @@
 
 *********************************************************************************/
 
-if (!$xirsys) {
-    var $xirsys = {
-        class: {},
-        baseUrl: "https://service.xirsys.com/"
-    };
-}
+var $xirsys = {
+    class: {},
+    //baseUrl: "https://ws.xirsys.com/"
+    baseUrl: window.location.protocol + "//" + window.location.host + "/"
+};
 
 (function() {
 
@@ -226,7 +225,7 @@ if (!$xirsys) {
                     this.xhr.open($opts.method, $opts.url, true);
                     this.setHeaders({
                         'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
                     });
                 }
                 if ($opts.headers && typeof $opts.headers == 'object') {
@@ -310,7 +309,6 @@ if (!$xirsys) {
             emit: function($evt /* additional params will be passed to event handlers */ ) {
                 var pntr = $xirsys.events.getInstance()._getNamespaceSegment($evt, true),
                     args = Array.prototype.slice.call(arguments, 0);
-                //args.shift();
                 for (var i = 0; i < pntr.length; i++) {
                     for (var j = 0; j < pntr[i]._handlers.length; j++) {
                         pntr[i]._handlers[j].apply(this, args);
@@ -324,6 +322,7 @@ if (!$xirsys) {
                     $evt : null;
 
                 if (!e) {
+                    console.log("bad event is ", $evt)
                     throw 'Event listener assigned to unknown type';
                 }
 

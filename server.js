@@ -42,17 +42,18 @@ var gw = XS.protocol + "://" + XS.gateway
 
 //Returns Secure token to connect to the service.
 app.post('/signal/token', function(req, res) {
-    console.log("posting to " + gw + "/signal/token")
     body = req.body
     body["ident"] = XS.ident
     body["secret"] = XS.secret
     request.post(gw + "/signal/token", { form: body }).pipe(res)
 })
 
+
 //Returns List of valid signaling servers that the clients can connect to.
 app.get('/signal/list', function(req, res) {
-    request.get({ url: gw + "/_host?type=signal", json: true }).auth(XS.ident, XS.secret).pipe(res)
+    request.get({ url: gw + "/signal/list", json: true }).pipe(res)
 })
+
 
 //Returns a Valid ICE server setup to handle the WebRTC handshake and TURN connection if needed.
 app.get('/ice', function(req, res) {
@@ -73,12 +74,12 @@ app.get('/xirsys_connect.js', function(req, res) {
         }
     }
 
-    var xirsys = {
-        baseUrl: "http://localhost:8000/",
-        class: {}
-    }
+    // var xirsys = {
+    //     baseUrl: "http://localhost:8000/",
+    //     class: {}
+    // }
 
     var xc = "var xirsysConnect=" + JSON.stringify(xirsysConnect) + ";\n"
-    var xs = "var $xirsys=" + JSON.stringify(xirsys) + ";\n"
-    res.end(xc + xs)
+        // var xs = "var $xirsys=" + JSON.stringify(xirsys) + ";\n"
+    res.end(xc)
 });

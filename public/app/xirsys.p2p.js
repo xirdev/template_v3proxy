@@ -214,34 +214,18 @@
 			onSignalMessage : function ($msg) {
 				switch ($msg.data.type) {
 					case "ice":
-						console.log('#xirys.p2p#  ICE - status: '+this.status+', msg: ',$msg);
-						if(this.status == $xirsys.p2p.CONNECTED){
-							console.log('in session!!!');
-							this.signal.send('session', {
-								type: 'denial',
-								code: 'user.insession'
-							}, $msg.peer);
-						} else {
-							this.onIceServers($msg.data.ice);
-						}
+						this.onIceServers($msg.data.ice);
 						break;
 					case "offer":
-						console.log('#xirys.p2p#  OFFER - status: '+this.status);
-						if(this.status == $xirsys.p2p.CONNECTED){
-							console.log('#xirys.p2p#  in session -  rtc.peer: ', this.rtc.peer,', rtc.conntype: ', this.rtc.connType);
-						} else {
-							// setRemoteDescription is intended to be in the answer
-							// method, but then candidate messages crash the app.
-							this.rtc.peerConn.setRemoteDescription(new RTCSessionDescription($msg.data), function(){}, function(){});
-							if (this.xirsys_opts.automaticAnswer === true) {
-								this.answer($msg.peer, $msg.data);
-							}
-							$xirsys.events.getInstance().emit($xirsys.p2p.offer, $msg.peer, $msg.data);
+						// setRemoteDescription is intended to be in the answer
+						// method, but then candidate messages crash the app.
+						this.rtc.peerConn.setRemoteDescription(new RTCSessionDescription($msg.data), function(){}, function(){});
+						if (this.xirsys_opts.automaticAnswer === true) {
+							this.answer($msg.peer, $msg.data);
 						}
+						$xirsys.events.getInstance().emit($xirsys.p2p.offer, $msg.peer, $msg.data);
 						break;
 					case "answer":
-						console.log('#xirsys.p2p#  ANSWER - msg: ',$msg);
-
 						this.rtc.peerConn.setRemoteDescription(new RTCSessionDescription($msg.data), function(){}, function(){});
 						$xirsys.events.getInstance().emit($xirsys.p2p.answer);
 						break;
@@ -253,15 +237,7 @@
 							})
 						);
 						break;
-					case "denial":
-						console.log('#xirys.p2p#  DENIAL - status: '+this.status);
-						if($msg.data.code === 'user.insession'){
-							console.log('disconnect');
-							$xirsys.events.getInstance().emit($xirsys.p2p.requestDenied, $msg.data);
-						}
-						break;
 					default:
-						console.log('#xirys.p2p#  onSignalMessage: ',$msg);
 						$xirsys.events.getInstance().emit($xirsys.signal.message, $msg);
 						break;
 				}
@@ -394,7 +370,6 @@
 			dataChannelMessage : "p2p.dataChannelMessage",
 			dataChannelOpen : "p2p.dataChannelOpen",
 			dataChannelClose : "p2p.dataChannelClose",
-			requestDenied : "p2p.requestDenied",
 			/* connection type */
 			publish : "pub",
 			subscribe : "sub",

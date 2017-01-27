@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /user/cells/v3proxy
+
+node server.js cells_config.json

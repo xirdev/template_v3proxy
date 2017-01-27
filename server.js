@@ -1,6 +1,6 @@
 /*
-    The full Xirsys Api uses PUT/POST/GET and DELETE to provide a more granular api
-    however, in this context, just GETting is simpler.
+   This is a straight-through proxy, to the V2 legacy api on the V3 system, as this
+   example is driven via the V2 confDK, as such it elaborates none of the new V3 features.
 */
 
 var request = require("request")
@@ -11,13 +11,19 @@ var url = require('url')
 var fs = require('fs')
 var bodyParser = require('body-parser');
 
+config_file = process.argv[2]
 
-if (!fs.existsSync("config.json")) {
-    console.log("Please provide config.json")
+if (!config_file) {
+    console.log("Please provide config file name as argument")
     process.exit(1)
 }
 
-var XS = JSON.parse(fs.readFileSync("config.json"))
+if (!fs.existsSync(config_file)) {
+    console.log(config_file + " does not exist")
+    process.exit(1)
+}
+
+var conf = JSON.parse(fs.readFileSync(config_file))
 
 var app = express()
 app.use(bodyParser.json()); // for parsing application/json
@@ -25,26 +31,34 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 var server;
 
-if (XS.protocol == "https") {
+if (conf.protocol == "https") {
     var opts = {
-        key: fs.readFileSync(path.join(__dirname, 'server.key')),
-        cert: fs.readFileSync(path.join(__dirname, 'server.crt'))
+        key: fs.readFileSync(conf.key_file),
+        cert: fs.readFileSync(conf.cert_file)
     };
-    server = https.createServer(opts, app).listen(8000)
+    server = https.createServer(opts, app).listen(conf.port)
 } else {
-    server = http.createServer(app).listen(8000)
+    server = http.createServer(app).listen(conf.port)
 }
 
 
 app.use(express.static('./public'));
 
-var gw = XS.protocol + "://" + XS.gateway
+
+function get_gateway() {
+    if (conf.gateway == "NEURON")
+        process.env.NEURON + ":4003"
+    else
+        conf.gateway
+}
+
+var gw = conf.protocol + "://" + get_gateway()
 
 //Returns Secure token to connect to the service.
 app.post('/signal/token', function(req, res) {
     body = req.body
-    body["ident"] = XS.ident
-    body["secret"] = XS.secret
+    body["ident"] = conf.ident
+    body["secret"] = conf.secret
     request.post(gw + "/signal/token", { form: body }).pipe(res)
 })
 
@@ -56,8 +70,8 @@ app.get('/signal/list', function(req, res) {
 
 
 //Returns a Valid ICE server setup to handle the WebRTC handshake and TURN connection if needed.
-app.get('/ice', function(req, res) {
-    request.put({ url: gw + "/_turn/my/ns", json: true }).auth(XS.ident, XS.secret).pipe(res)
+app.post('/ice', function(req, res) {
+    request.post({ url: gw + "/ice", json: true, form: req.body }).pipe(res)
 });
 
 
@@ -70,16 +84,11 @@ app.get('/xirsys_connect.js', function(req, res) {
             domain: 'my',
             application: 'default',
             room: 'default',
-            secure: 0
+            secure: (conf.protocol == "https") ? 1 : 0
         }
     }
 
-    // var xirsys = {
-    //     baseUrl: "http://localhost:8000/",
-    //     class: {}
-    // }
-
     var xc = "var xirsysConnect=" + JSON.stringify(xirsysConnect) + ";\n"
-        // var xs = "var $xirsys=" + JSON.stringify(xirsys) + ";\n"
+
     res.end(xc)
 });

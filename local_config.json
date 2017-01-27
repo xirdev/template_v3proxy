@@ -1,0 +1,10 @@
+{
+    "ident": "jerzilla",
+    "secret": "1d484d60-6af4-11e6-b627-ba45bfd7b2b0",
+    "gateway": "172.17.0.4:4003",
+    "port": 10000,
+    "protocol": "http",
+    "key_dir": null,
+    "key_file": null,
+    "cert_file": null
+}

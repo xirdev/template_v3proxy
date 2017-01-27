@@ -27,7 +27,6 @@
 
 var $xirsys = {
     class: {},
-    //baseUrl: "https://ws.xirsys.com/"
     baseUrl: window.location.protocol + "//" + window.location.host + "/"
 };
 

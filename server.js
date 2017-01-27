@@ -65,7 +65,7 @@ var mountPoint = get_mount_point(app),
 
 
 
-mountpoint.use(function(req, res, next) {
+mountPoint.use(function(req, res, next) {
     console.log('before: req: ', req.method, ' for: ', req.url);
     req.url = req.url.substr(1)
     console.log('after: req: ', req.method, ' for: ', req.url);

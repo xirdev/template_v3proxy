@@ -1,6 +1,5 @@
 #!/bin/bash
 
 cd /user/cells/v3proxy
-
 npm install
 node server.js cell_config.json

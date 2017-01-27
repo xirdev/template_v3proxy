@@ -30,7 +30,7 @@ var $xirsys = {
     baseUrl: function() {
         var l = window.location.href.toString().split("/")
         l.pop()
-        l.join("/")
+        return l.join("/")
     }()
 };
 

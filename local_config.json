@@ -4,7 +4,6 @@
     "gateway": "172.17.0.4:4003",
     "port": 10000,
     "protocol": "http",
-    "key_dir": null,
     "key_file": null,
     "cert_file": null
 }

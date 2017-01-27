@@ -47,12 +47,6 @@ function get_mount_point(app) {
         // a cell requires to be on a sub-url as nginx knows about "/xsdk", mounting is a good way to achieve this
         mountPoint = express()
         app.use("/xsdk", mountPoint)
-        app.use(function(req, res, next) {
-            console.log('before: req: ', req.method, ' for: ', req.url);
-            req.url = req.url.substr(1)
-            console.log('after: req: ', req.method, ' for: ', req.url);
-            next();
-        });
         console.log("mounting on /xsdk")
     } else {
         mountPoint = app
@@ -64,7 +58,6 @@ function get_mount_point(app) {
 }
 
 var app = express();
-
 
 var mountPoint = get_mount_point(app),
     gw = conf.protocol + "://" + get_gateway()

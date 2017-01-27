@@ -73,7 +73,7 @@ if (conf.protocol == "https") {
 }
 
 
-mountpoint.use(function(req, res, next) {
+app.use(function(req, res, next) {
     console.log('req: ', req.method, ' for: ', req.url);
     next();
 });

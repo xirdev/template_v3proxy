@@ -75,6 +75,7 @@ if (conf.protocol == "https") {
 
 app.use(function(req, res, next) {
     console.log('req: ', req.method, ' for: ', req.url);
+    req.url = req.url.substr(0, req.url.length - 1)
     next();
 });
 

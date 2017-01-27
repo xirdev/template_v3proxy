@@ -60,15 +60,17 @@ function get_mount_point(app) {
 var app = express();
 
 
-app.use(function(req, res, next) {
+var mountPoint = get_mount_point(app),
+    gw = conf.protocol + "://" + get_gateway()
+
+
+
+mountpoint.use(function(req, res, next) {
     console.log('before: req: ', req.method, ' for: ', req.url);
     req.url = req.url.substr(1)
     console.log('after: req: ', req.method, ' for: ', req.url);
     next();
 });
-
-var mountPoint = get_mount_point(app),
-    gw = conf.protocol + "://" + get_gateway()
 
 
 if (conf.protocol == "https") {

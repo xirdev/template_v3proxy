@@ -2,4 +2,5 @@
 
 cd /user/cells/v3proxy
 
+npm install
 node server.js cells_config.json

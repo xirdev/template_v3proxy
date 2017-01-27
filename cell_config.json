@@ -2,8 +2,6 @@
     "ident": "jerzilla",
     "secret": "1d484d60-6af4-11e6-b627-ba45bfd7b2b0",
     "gateway": "NEURON",
-    "port": 10000,
-    "protocol": "https",
-    "key_file": "/star_xirsys_com.key",
-    "cert_file": "/star_xirsys_com.pem"
+    "port": 10002,
+    "protocol": "http",
 }

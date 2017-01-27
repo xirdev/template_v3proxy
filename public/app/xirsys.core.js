@@ -27,7 +27,11 @@
 
 var $xirsys = {
     class: {},
-    baseUrl: window.location.protocol + "//" + window.location.host + "/"
+    baseUrl: function() {
+        var l = window.location.href.toString().split("/")
+        l.pop()
+        l.join("/")
+    }()
 };
 
 (function() {

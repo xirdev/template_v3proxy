@@ -57,8 +57,17 @@ function get_mount_point(app) {
     return mountPoint
 }
 
-var app = express(),
-    mountPoint = get_mount_point(app),
+var app = express();
+
+
+app.use(function(req, res, next) {
+    console.log('before: req: ', req.method, ' for: ', req.url);
+    req.url = req.url.substr(1)
+    console.log('after: req: ', req.method, ' for: ', req.url);
+    next();
+});
+
+var mountPoint = get_mount_point(app),
     gw = conf.protocol + "://" + get_gateway()
 
 
@@ -72,13 +81,6 @@ if (conf.protocol == "https") {
     http.createServer(app).listen(conf.port)
 }
 
-
-app.use(function(req, res, next) {
-    console.log('before: req: ', req.method, ' for: ', req.url);
-    req.url = req.url.substr(1)
-    console.log('after: req: ', req.method, ' for: ', req.url);
-    next();
-});
 
 //Returns Secure token to connect to the service.
 mountPoint.post('/signal/token', function(req, res) {

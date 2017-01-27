@@ -91,7 +91,10 @@ mountPoint.get('/signal/list', function(req, res) {
 
 //Returns a Valid ICE server setup to handle the WebRTC handshake and TURN connection if needed.
 mountPoint.post('/ice', function(req, res) {
-    request.post({ url: gw + "/ice", json: true, form: req.body }).pipe(res)
+    body = req.body
+    body["ident"] = conf.ident
+    body["secret"] = conf.secret
+    request.post({ url: gw + "/ice", json: true, form: body }).pipe(res)
 });
 
 

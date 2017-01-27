@@ -47,6 +47,7 @@ function get_mount_point(app) {
         // a cell requires to be on a sub-url as nginx knows about "/xsdk", mounting is a good way to achieve this
         mountPoint = express()
         app.use("/xsdk", mountPoint)
+        console.log("mounting on /xsdk")
     } else {
         mountPoint = app
     }
@@ -71,6 +72,11 @@ if (conf.protocol == "https") {
     http.createServer(app).listen(conf.port)
 }
 
+
+mountpoint.use(function(req, res, next) {
+    console.log('req: ', req.method, ' for: ', req.url);
+    next();
+});
 
 //Returns Secure token to connect to the service.
 mountPoint.post('/signal/token', function(req, res) {

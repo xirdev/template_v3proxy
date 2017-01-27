@@ -83,7 +83,7 @@
 
                 loginEl.parentNode.style.visibility = 'hidden';
                 logOutEl.style.visibility = 'visible';
-                logOutEl.style.backgroundImage = 'url(/images/sign-out-grn.png)';
+                logOutEl.style.backgroundImage = 'url(images/sign-out-grn.png)';
 
                 var connectionProperties = xirsysConnect.data;
                 connectionProperties.username = username;
@@ -102,7 +102,7 @@
                 usernameLabelEl.appendChild(document.createTextNode('Username'));
                 login.parentNode.style.visibility = 'visible';
                 //logOutEl.style.visibility = 'hidden';
-                logOutEl.style.backgroundImage = 'url(/images/sign-out.png)';
+                logOutEl.style.backgroundImage = 'url(images/sign-out.png)';
                 removeAllPeers();
                 if (remoteChatRequest === undefined) {
                     callEnd();
@@ -185,11 +185,11 @@
                         console.log('selc: ', sel, ', img: ', sel.getElementsByClassName('peer-icon')[0]);
                         sel.classList.remove('selected');
                         if (sel.id === tar.id) {
-                            callPeerEl.style.backgroundImage = 'url(/images/start-call.png)';
+                            callPeerEl.style.backgroundImage = 'url(images/start-call.png)';
                             return;
                         }
                     }
-                    callPeerEl.style.backgroundImage = 'url(/images/start-call-grn.png)';
+                    callPeerEl.style.backgroundImage = 'url(images/start-call-grn.png)';
 
                     tar.classList.add('selected');
                 }
@@ -220,7 +220,7 @@
                     if (!document.getElementById('peer-' + $peerName)) {
                         //create icon
                         var imgEl = document.createElement('img');
-                        imgEl.setAttribute('src', '/images/user-icon-sm.png');
+                        imgEl.setAttribute('src', 'images/user-icon-sm.png');
                         imgEl.setAttribute('class', 'peer-icon');
                         //create label
                         var txtEl = document.createElement('span'); //document.createElement('input');
@@ -477,7 +477,7 @@
                     peer: $peerName
                 };
 
-                hangUpEl.style.backgroundImage = 'url(/images/end-call-grn.png)';
+                hangUpEl.style.backgroundImage = 'url(images/end-call-grn.png)';
 
                 //udpate indicator in userlist item
                 var sel = document.getElementById('peer-' + remoteChatRequest.peer);
@@ -503,7 +503,7 @@
             var callEnd = function($event, $denied) {
                 console.log('*** callEnd, peer:  ', remoteChatRequest.peer);
                 remotePeerName.innerHTML = 'No Caller';
-                hangUpEl.style.backgroundImage = 'url(/images/end-call.png)';
+                hangUpEl.style.backgroundImage = 'url(images/end-call.png)';
 
                 p.hangUp();
 
@@ -512,7 +512,7 @@
                 var sel = document.getElementById('peer-' + remoteChatRequest.peer);
                 if (!!sel) {
                     var pIcon = sel.getElementsByClassName('peer-icon')[0];
-                    pIcon.src = '/images/user-icon-sm.png';
+                    pIcon.src = 'images/user-icon-sm.png';
                 }
                 //show chat if hidden
                 showChat(true);

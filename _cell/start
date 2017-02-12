@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /cells/v3proxy
+echo "Hang on, doing an npm install ..."
+npm install
+node server.js cell_config.json

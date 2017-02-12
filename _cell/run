@@ -1,0 +1,5 @@
+#!/bin/bash
+/sbin/setuser ritchie git config --global credential.helper store
+echo https://async-cl:1ZppCeq7DnlThlwW767M0R4kW@github.com > /home/ritchie/.git-credentials
+chown ritchie:ritchie /home/ritchie/.git-credentials
+exec /sbin/setuser ritchie /cells/v3proxy/_cell/start

@@ -1,5 +1,5 @@
 /*
-   This is a straight-through proxy, to the V2 legacy api on the V3 system, as this
+   This is a straight-through proxy, to the V2 legacy api on the V3 system. This
    example is driven via the V2 client SDK - as such it elaborates none of the new V3 features.
 */
 
@@ -36,8 +36,13 @@ function is_cell() {
 }
 
 
+function neuron() {
+    return process.env.NEURON_PORT_4006_TCP_ADDR
+}
+
+
 function get_gateway() {
-    return (is_cell()) ? process.env.NEURON + ":4003" : conf.gateway
+    return (is_cell()) ? neuron() + ":4003" : conf.gateway
 }
 
 
@@ -79,7 +84,8 @@ mountPoint.post('/signal/token', function(req, res) {
     body = req.body
     body["ident"] = conf.ident
     body["secret"] = conf.secret
-    request.post(gw + "/signal/token", { form: body }).pipe(res)
+    var url = gw + "/signal/token"
+    request.post({url:gw + "/signal/token",json: true, form: body }).pipe(res)
 })
 
 

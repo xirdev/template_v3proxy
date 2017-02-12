@@ -1,7 +1,7 @@
 {
     "name": "proxy",
     "version": "1.0.0",
-    "description": "",
+    "description": "A Xirsys Node.js Cell Application",
     "main": "server.js",
     "dependencies": {
         "body-parser": "^1.16.0",

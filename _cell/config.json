@@ -1,0 +1,4 @@
+{
+    "stem": "endpoint03.uswest.xirsys.com:9000/dev",
+    "run": "-p 10002:10002"
+}

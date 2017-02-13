@@ -2,5 +2,21 @@
 
 cd /cells/v3proxy
 echo "Hang on, doing an npm install ..."
+
+#NEURON=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' neuron)
+NEURON=$NEURON_PORT_4006_TCP_ADDR:4006
+
+echo "NEURON IS $NEURON"
+# the sys account creates  a test user
+SYS_STEM="http://%24sys:secret@$NEURON"
+curl -s -XDELETE "$SYS_STEM/_acc/accounts?k=testuser" # delete if it exists
+curl -s -H 'Content-type: application/json' -XPUT "$SYS_STEM/_acc/accounts" -d '{"k": "testuser", "v": {"email": "test@xirsys.com","secret": "secret"}}'
+
+# then the test user adds a namespace for themselves, this testuser is the one specified
+# in cell_config.json
+USER_STEM="http://testuser:secret@$NEURON"
+curl -s -XPUT "$USER_STEM/_ns/www.xirsys.com/default/default"
+
+
 npm install
 node server.js cell_config.json

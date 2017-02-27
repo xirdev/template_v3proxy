@@ -1,4 +1,4 @@
 {
     "run": "-p 10002:10002",
-    "stem": ["xirsys/base"]
+    "stem": "xirsys/base"
 }

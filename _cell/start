@@ -1,6 +1,5 @@
 #!/bin/bash
 
-cd /cells/v3proxy
 echo "Hang on, doing an npm install ..."
 
 #NEURON=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' neuron)

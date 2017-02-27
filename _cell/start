@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Hang on, doing an npm install ..."
+npm install
 
 #NEURON=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' neuron)
 NEURON=$NEURON_PORT_4006_TCP_ADDR:4006
@@ -17,5 +18,10 @@ USER_STEM="http://testuser:secret@$NEURON"
 curl -s -XPUT "$USER_STEM/_ns/www.xirsys.com/default/default"
 
 
-npm install
-node server.js cell_config.json
+
+if [ -z "$XS_DEBUG" ]; then
+    node server.js cell_config.json
+else
+    echo "launching with inspect $(node -v)"
+    node --inspect server.js cell_config.json
+fi

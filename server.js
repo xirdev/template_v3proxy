@@ -120,7 +120,8 @@ mountPoint.get('/xirsys_connect.js', function(req, res) {
             domain: 'www.xirsys.com',
             application: 'default',
             room: 'default',
-            secure: (conf.protocol == "https") ? 1 : 0
+            //   secure: (conf.protocol == "https") ? 1 : 0
+            secure: 1
         }
     }
 

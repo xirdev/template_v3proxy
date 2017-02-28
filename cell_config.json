@@ -1,6 +1,6 @@
 {
     "ident": "testuser",
-    "secret": "secret",
+    "secret": "8b553ef6-fde0-11e6-ad9a-a1573f200bc4",
     "gateway": "NEURON",
     "port": 10002,
     "protocol": "http",

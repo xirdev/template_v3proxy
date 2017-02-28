@@ -86,6 +86,7 @@ mountPoint.post('/signal/token', function(req, res) {
     body["ident"] = conf.ident
     body["secret"] = conf.secret
     var url = gw + "/signal/token"
+    console.log("requestuing " + url)
     request.post({ url: gw + "/signal/token", json: true, form: body }).pipe(res)
 })
 

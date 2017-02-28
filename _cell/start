@@ -12,7 +12,7 @@ USER_STEM="http://testuser:secret@$NEURON"
 #curl -s -XPUT "$USER_STEM/_ns/www.xirsys.com/default/default"
 
 if [ "$XS_DEBUG" == "0" ]; then
-    echo "Should be running securely!"
+    echo "No debug ..."
     node server.js cell_config.json
 else
     echo "launching with inspect $(node -v)"

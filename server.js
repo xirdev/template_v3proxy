@@ -68,7 +68,7 @@ var mountPoint = get_mount_point(app),
     gw = conf.protocol + "://" + get_gateway()
 
 
-if (conf.protocol == "https") {
+if (process.env.XS_DEBUG == "0") {
     var opts = {
         key: fs.readFileSync(conf.key_file),
         cert: fs.readFileSync(conf.cert_file)
@@ -85,7 +85,7 @@ mountPoint.post('/signal/token', function(req, res) {
     body["ident"] = conf.ident
     body["secret"] = conf.secret
     var url = gw + "/signal/token"
-    request.post({url:gw + "/signal/token",json: true, form: body }).pipe(res)
+    request.post({ url: gw + "/signal/token", json: true, form: body }).pipe(res)
 })
 
 

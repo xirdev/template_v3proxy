@@ -3,5 +3,8 @@
     "secret": "secret",
     "gateway": "NEURON",
     "port": 10002,
-    "protocol": "http"
+    "protocol": "http",
+    "key_file": "/vhome/star_xirsys.com.key",
+    "cert_file": "/vhome/star_xirsys.com.cert"
+
 }

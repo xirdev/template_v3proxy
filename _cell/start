@@ -16,7 +16,7 @@ curl -s -XPUT "$USER_STEM/_ns/www.xirsys.com/default/default"
 
 
 
-if [ -z "$XS_DEBUG" ]; then
+if [ "$XS_DEBUG" == "0" ]; then
     node server.js cell_config.json
 else
     echo "launching with inspect $(node -v)"

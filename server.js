@@ -68,16 +68,17 @@ var mountPoint = get_mount_point(app),
     gw = conf.protocol + "://" + get_gateway()
 
 
-if (process.env.XS_DEBUG == "0") {
-    var opts = {
-        key: fs.readFileSync(conf.key_file),
-        cert: fs.readFileSync(conf.cert_file)
-    };
-    https.createServer(opts, app).listen(conf.port)
-} else {
-    http.createServer(app).listen(conf.port)
-}
+// if (process.env.XS_DEBUG == "0") {
+//     var opts = {
+//         key: fs.readFileSync(conf.key_file),
+//         cert: fs.readFileSync(conf.cert_file)
+//     };
+//     https.createServer(opts, app).listen(conf.port)
+// } else {
+//     http.createServer(app).listen(conf.port)
+// }
 
+http.createServer(app).listen(conf.port)
 
 //Returns Secure token to connect to the service.
 mountPoint.post('/signal/token', function(req, res) {

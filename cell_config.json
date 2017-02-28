@@ -4,7 +4,7 @@
     "gateway": "NEURON",
     "port": 10002,
     "protocol": "http",
-    "key_file": "/vhome/star_xirsys.com.key",
-    "cert_file": "/vhome/star_xirsys.com.cert"
+    "key_file": "/vhome/star_xirsys_com.key",
+    "cert_file": "/vhome/star_xirsys_com.cert"
 
 }

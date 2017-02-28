@@ -97,7 +97,7 @@ mountPoint.post('/signal/token', function(req, res) {
 
 //Returns List of valid signaling servers that the clients can connect to.
 mountPoint.get('/signal/list', function(req, res) {
-    request.get({ url: gw + "/signal/list", json: true }).pipe(res)
+    request.get({ url: gw + "/signal/list?secure=1", json: true }).pipe(res)
 })
 
 

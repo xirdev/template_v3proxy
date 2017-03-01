@@ -68,36 +68,41 @@ var mountPoint = get_mount_point(app),
     gw = conf.protocol + "://" + get_gateway()
 
 
-// if (process.env.XS_DEBUG == "0") {
-//     var opts = {
-//         key: fs.readFileSync(conf.key_file),
-//         cert: fs.readFileSync(conf.cert_file)
-//     };
-//     https.createServer(opts, app).listen(conf.port)
-// } else {
-//     http.createServer(app).listen(conf.port)
-// }
+if (conf.protocol == "https") {
+    var opts = {
+        key: fs.readFileSync(conf.key_file),
+        cert: fs.readFileSync(conf.cert_file)
+    };
+    https.createServer(opts, app).listen(conf.port)
+} else {
+    console.log("Http server on " + conf.port)
+    http.createServer(app).listen(conf.port)
+}
 
-http.createServer(app).listen(conf.port)
 
 //Returns Secure token to connect to the service.
 mountPoint.post('/signal/token', function(req, res) {
     body = req.body
     body["ident"] = conf.ident
     body["secret"] = conf.secret
-    body["domain"] = "www.xirsys.com"
-    body["application"] = "default"
-    body["room"] = "default"
-
+        // body["domain"] = req.body.domain
+        // body["application"] = req.body.application
+        // body["room"] = req.body.room
+    console.log("IN HERE:" + gw)
     var url = gw + "/signal/token"
-    console.log("requestuing " + url + " with " + conf.ident + ", " + conf.secret)
     request.post({ url: gw + "/signal/token", json: true, form: body }).pipe(res)
 })
 
 
 //Returns List of valid signaling servers that the clients can connect to.
 mountPoint.get('/signal/list', function(req, res) {
-    request.get({ url: gw + "/signal/list?secure=1", json: true }).pipe(res)
+    var secure = req.query.secure
+    if (!secure)
+        sec = ""
+    else
+        sec = "?secure=" + secure
+
+    request.get({ url: gw + "/signal/list" + sec, json: true }).pipe(res)
 })
 
 
@@ -121,7 +126,7 @@ mountPoint.get('/xirsys_connect.js', function(req, res) {
             application: 'default',
             room: 'default',
             //   secure: (conf.protocol == "https") ? 1 : 0
-            secure: 1
+            secure: 0
         }
     }
 

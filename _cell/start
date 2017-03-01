@@ -1,20 +1,14 @@
 #!/bin/bash
 
-#NEURON=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' neuron)
 NEURON=$NEURON_PORT_4006_TCP_ADDR:4006
 
 echo "NEURON IS $NEURON"
 
-# then the test user adds a namespace for themselves, this testuser is the one specified
-# in cell_config.json
-USER_STEM="http://testuser:secret@$NEURON"
-
-#curl -s -XPUT "$USER_STEM/_ns/www.xirsys.com/default/default"
-
 if [ "$XS_DEBUG" == "0" ]; then
     echo "No debug ..."
-    node server.js cell_config.json
+    node server.js proxy_config.json
 else
+    # called in local mode, so need to add the test user manually
     echo "launching with inspect $(node -v)"
-    node --inspect server.js cell_config.json
+    node --inspect server.js proxy_config.json
 fi

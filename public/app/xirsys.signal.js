@@ -515,7 +515,7 @@
                 /*********************************************************************************/
         },
         statics: {
-            wsList: $xirsys.baseUrl + "signal/list?secure=" + xirsysConnect.data.secure,
+            wsList: $xirsys.baseUrl + "signal/list?secure=" + ((location.protocol == "https") ? 1 : 0),
             tokenUrl: $xirsys.baseUrl + "signal/token",
             /* events */
             open: "signalling.open",

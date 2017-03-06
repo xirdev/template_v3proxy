@@ -4,7 +4,7 @@ NEURON=$NEURON_PORT_4006_TCP_ADDR:4006
 
 echo "NEURON IS $NEURON"
 
-if [ "$XS_DEBUG" == "0" ]; then
+if [ "$XS_DEBUG" = 0 ]; then
     echo "No debug ..."
     node server.js proxy_config.json
 else
